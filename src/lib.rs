@@ -1,9 +1,9 @@
+mod Hedron;
 mod line;
 mod ray;
 mod simple_plane;
 mod simple_tri;
 mod vectors;
-mod Hedron;
 
 use crate::ray::Ray;
 use crate::simple_plane::SimplePlane;
@@ -15,8 +15,8 @@ pub fn add(left: u64, right: u64) -> u64 {
 
 #[cfg(test)]
 mod tests {
-    use crate::Hedron::Tetrahedron;
     use super::*;
+    use crate::Hedron::Tetrahedron;
 
     #[test]
     fn it_works() {
@@ -91,7 +91,12 @@ mod tests {
     }
     #[test]
     fn test_hedron() {
-        let hedr=Tetrahedron::new(Vector3::zero(),Vector3::ihat(),Vector3::jhat(),-Vector3::khat());
+        let hedr = Tetrahedron::new(
+            Vector3::zero(),
+            Vector3::ihat(),
+            Vector3::jhat(),
+            -Vector3::khat(),
+        );
         assert_eq!(hedr.volume(), -0.5);
     }
 }
