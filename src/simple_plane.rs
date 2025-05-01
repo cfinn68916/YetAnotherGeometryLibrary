@@ -12,7 +12,7 @@ fn inv33(mat: [f64; 9]) -> Option<[f64; 9]> {
     let det = mat[0] * (mat[4] * mat[8] - mat[5] * mat[7])
         - mat[1] * (mat[3] * mat[8] - mat[5] * mat[6])
         + mat[2] * (mat[3] * mat[7] - mat[4] * mat[6]);
-    if (det == 0.0) {
+    if det == 0.0 {
         None
     } else {
         let cof = [

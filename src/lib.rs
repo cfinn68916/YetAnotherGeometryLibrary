@@ -5,9 +5,6 @@ mod simple_plane;
 mod simple_tri;
 mod vectors;
 
-use crate::ray::Ray;
-use crate::simple_plane::SimplePlane;
-use crate::vectors::Vector3;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
@@ -17,6 +14,9 @@ pub fn add(left: u64, right: u64) -> u64 {
 mod tests {
     use super::*;
     use crate::Hedron::Tetrahedron;
+    use crate::vectors::Vector3;
+    use crate::ray::Ray;
+    use crate::simple_plane::SimplePlane;
 
     #[test]
     fn it_works() {
