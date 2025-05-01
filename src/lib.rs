@@ -1,4 +1,4 @@
-mod Hedron;
+mod hedron;
 mod line;
 mod ray;
 mod simple_plane;
@@ -13,7 +13,7 @@ pub fn add(left: u64, right: u64) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::Hedron::Tetrahedron;
+    use crate::hedron::Tetrahedron;
     use crate::vectors::Vector3;
     use crate::ray::Ray;
     use crate::simple_plane::SimplePlane;
