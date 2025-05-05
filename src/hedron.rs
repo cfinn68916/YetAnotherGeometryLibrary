@@ -18,7 +18,7 @@ impl Tetrahedron {
     }
     pub fn volume(&self) -> f64 {
         // This is the scalar triple product, or the determinant of the matrix with a,b,and c as its rows. It is the volume of the parallelepiped with sides a,b,c.
-        self.a.dot(&self.b.cross(&self.c)) / 2.0
+        self.a.dot(&self.b.cross(&self.c)) / 6.0
     }
     pub fn pt_1(&self) -> Vector3 {
         self.origin

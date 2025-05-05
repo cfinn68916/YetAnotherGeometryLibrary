@@ -93,10 +93,10 @@ mod tests {
     fn test_hedron() {
         let hedr = Tetrahedron::new(
             Vector3::zero(),
-            Vector3::ihat(),
-            Vector3::jhat(),
-            -Vector3::khat(),
+            Vector3::ihat() * 3.0,
+            Vector3::jhat() * 3.0,
+            -Vector3::khat() * 3.0,
         );
-        assert_eq!(hedr.volume(), -0.5);
+        assert_eq!(hedr.volume(), -4.5);
     }
 }
