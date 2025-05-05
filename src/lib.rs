@@ -108,6 +108,6 @@ mod tests {
             Vector2::new(2.0, 1.0),
             Vector2::new(1.0, 1.0),
         ]);
-        println!("{}", poly.area());
+        assert_eq!(poly.area(),1.0);
     }
 }
