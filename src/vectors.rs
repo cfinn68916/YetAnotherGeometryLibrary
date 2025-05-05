@@ -165,7 +165,9 @@ impl Vector2 {
     pub fn dot(&self, rhs: &Vector2) -> f64 {
         self.x * rhs.x + self.y * rhs.y
     }
-
+    pub fn cross(&self, rhs: &Vector2) -> f64 {
+        self.x * rhs.y - self.y * rhs.x
+    }
     pub fn angle_cosine(&self, rhs: &Vector2) -> f64 {
         self.dot(rhs) / (self.magnitude() * rhs.magnitude())
     }

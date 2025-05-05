@@ -1,3 +1,4 @@
+use crate::ray::Ray;
 use crate::vectors::{Vector2, Vector3};
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -47,6 +48,34 @@ impl SimpleTriangle {
                 other_adj.dot(&c_adj) / (c_adj.dot(&c_adj)),
             );
             (coord.x >= 0.0) && (coord.y >= 0.0) && (coord.x + coord.y <= 1.0)
+        }
+    }
+    //TODO:test
+    pub fn ray_intersects(&self, other: Ray) -> Result<Vector3, String> {
+        let origin = self.a;
+        let x = self.b - self.a;
+        let y = self.c - self.a;
+        let adjusted_ray = Ray::new(other.origin - origin, other.direction);
+
+        if adjusted_ray.direction.dot(&self.normal()) == 0.0
+            && adjusted_ray.origin.dot(&self.normal()) != 0.0
+        {
+            Err("Ray is perpendicular to plane".to_string())
+        } else if adjusted_ray.direction.dot(&self.normal()) == 0.0 {
+            Err("Ray lies completely on plane".to_string())
+        } else {
+            let no = self.normal().dot(&adjusted_ray.origin);
+            let nv = self.normal().dot(&adjusted_ray.direction);
+            if -no / nv < 0.0 {
+                Err("Ray points away from plane".to_string())
+            } else {
+                let pt = adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + origin;
+                if self.point_intersects(pt) {
+                    Ok(pt)
+                } else {
+                    Err("Ray intersects outside of triangle".to_string())
+                }
+            }
         }
     }
 }

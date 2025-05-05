@@ -1,3 +1,4 @@
+mod gon;
 mod hedron;
 mod line;
 mod ray;
@@ -98,5 +99,15 @@ mod tests {
             -Vector3::khat() * 3.0,
         );
         assert_eq!(hedr.volume(), -4.5);
+    }
+    #[test]
+    fn test_triangle() {
+        let poly = Polygon::new(vec![
+            Vector2::new(1.0, 0.0),
+            Vector2::new(2.0, 0.0),
+            Vector2::new(2.0, 1.0),
+            Vector2::new(1.0, 1.0),
+        ]);
+        println!("{}", poly.area());
     }
 }
