@@ -66,3 +66,81 @@ impl Tetrahedron {
         sf[0].area() + sf[1].area() + sf[2].area() + sf[3].area()
     }
 }
+
+pub struct Polyhedron {
+    points: Vec<Vector3>,
+    faces: Vec<(usize, usize, usize)>,
+}
+
+impl Polyhedron {
+    //TODO:Impl
+    fn check_homeomorphism(points: &Vec<Vector3>, faces: &Vec<(usize, usize, usize)>) -> bool {
+        true
+    }
+    //TODO:Impl
+    fn check_normals(points: &Vec<Vector3>, faces: &Vec<(usize, usize, usize)>) -> bool {
+        true
+    }
+    //TODO:Impl
+    pub fn new(points: Vec<Vector3>, faces: Vec<(usize, usize, usize)>) -> Result<Self, String> {
+        Err("NOIMPL".to_string())
+    }
+    //TODO:Impl
+    pub fn new_autofix(
+        points: Vec<Vector3>,
+        faces: Vec<(usize, usize, usize)>,
+    ) -> Result<Self, String> {
+        Err("NOIMPL".to_string())
+    }
+    pub fn new_unchecked(points: Vec<Vector3>, faces: Vec<(usize, usize, usize)>) -> Self {
+        Self { points, faces }
+    }
+    pub fn cube() -> Self {
+        Self::new_unchecked(
+            vec![
+                Vector3::zero(),
+                Vector3::ihat(),
+                Vector3::jhat(),
+                Vector3::khat(),
+                Vector3::new(0.0, 1.0, 1.0),
+                Vector3::new(1.0, 0.0, 1.0),
+                Vector3::new(1.0, 1.0, 0.0),
+                Vector3::new(1.0, 1.0, 1.0),
+            ],
+            vec![
+                (0, 2, 1),
+                (0, 1, 3),
+                (0, 3, 2),
+                (6, 1, 2),
+                (5, 3, 1),
+                (4, 2, 3),
+                (4, 5, 7),
+                (4, 7, 6),
+                (5, 6, 7),
+                (4, 3, 5),
+                (4, 6, 2),
+                (5, 1, 6),
+            ],
+        )
+    }
+    pub fn get_faces(&self) -> Vec<SimpleTriangle> {
+        self.faces
+            .iter()
+            .map(|x| SimpleTriangle::new(self.points[x.0], self.points[x.1], self.points[x.2]))
+            .collect()
+    }
+    pub fn get_volume(&self) -> f64 {
+        self.faces
+            .iter()
+            .map(|x| {
+                Tetrahedron::from_points(
+                    self.points[0],
+                    self.points[x.0],
+                    self.points[x.1],
+                    self.points[x.2],
+                )
+                .volume()
+            })
+            .sum()
+    }
+}

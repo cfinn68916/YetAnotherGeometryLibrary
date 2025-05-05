@@ -25,9 +25,16 @@ impl SimpleTriangle {
     pub fn normal(&self) -> Vector3 {
         (self.b - self.a).cross(&(self.c - self.b)) / 2.0
     }
+    pub fn center(&self) -> Vector3 {
+        (self.a + self.b + self.c) / 3.0
+    }
+    pub fn normal_ray(&self) -> Ray {
+        Ray::new(self.center(), self.normal())
+    }
     pub fn area(&self) -> f64 {
         self.normal().magnitude()
     }
+    //TODO:test
     pub fn point_intersects(&self, other: Vector3) -> bool {
         let other_adj = other - self.a;
         let b_adj = self.b - self.a;
