@@ -1,6 +1,7 @@
 mod gon;
 mod hedron;
 mod line;
+mod quaternion;
 mod ray;
 mod simple_plane;
 mod simple_tri;
