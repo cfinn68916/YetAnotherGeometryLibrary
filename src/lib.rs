@@ -3,6 +3,7 @@ mod hedron;
 mod line;
 mod quaternion;
 mod ray;
+mod rotation3;
 mod simple_plane;
 mod simple_tri;
 mod vectors;
@@ -14,7 +15,7 @@ pub fn add(left: u64, right: u64) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::hedron::{Polyhedron, Tetrahedron};
+    use crate::hedron::Tetrahedron;
     use crate::ray::Ray;
     use crate::simple_plane::SimplePlane;
     use crate::vectors::{Vector2, Vector3};
@@ -109,6 +110,6 @@ mod tests {
             Vector2::new(2.0, 1.0),
             Vector2::new(1.0, 1.0),
         ]);
-        assert_eq!(poly.area(),1.0);
+        assert_eq!(poly.area(), 1.0);
     }
 }

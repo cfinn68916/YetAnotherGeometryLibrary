@@ -53,8 +53,6 @@ impl SimpleTriangle {
     //TODO:test
     pub fn ray_intersects(&self, other: Ray) -> Result<Vector3, String> {
         let origin = self.a;
-        let x = self.b - self.a;
-        let y = self.c - self.a;
         let adjusted_ray = Ray::new(other.origin - origin, other.direction);
 
         if adjusted_ray.direction.dot(&self.normal()) == 0.0

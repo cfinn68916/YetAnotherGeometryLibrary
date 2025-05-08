@@ -85,7 +85,7 @@ impl Quaternion {
     }
     pub fn from_rotation_vector(rvec: Vector3) -> Self {
         let theta = rvec.magnitude();
-        if (theta.abs() < 1E-9) {
+        if theta.abs() < 1E-9 {
             Quaternion::default()
         } else {
             Self::from_scalar_vector((theta / 2.0).cos(), rvec.normd() * (theta / 2.0).sin())
@@ -122,7 +122,7 @@ impl Quaternion {
     }
     pub fn exp(&self) -> Self {
         let scalar_exp = self.get_scalar().exp();
-        let axial_scalar = if (self.get_vector().magnitude() < 1E-9) {
+        let axial_scalar = if self.get_vector().magnitude() < 1E-9 {
             let axial_mag2 = self.get_vector().magnitude().powi(2);
             let axial_mag4 = axial_mag2 * axial_mag2;
             1.0 - (axial_mag2 / 6.0) + (axial_mag4 / 120.0)

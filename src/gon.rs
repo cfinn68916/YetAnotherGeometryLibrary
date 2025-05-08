@@ -1,4 +1,4 @@
-use crate::vectors::{Vector2, Vector3};
+use crate::vectors::Vector2;
 
 struct Triangle {
     a: Vector2,
