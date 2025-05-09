@@ -1,43 +1,12 @@
 use crate::line::{Line, LineSegment};
 use crate::ray::Ray;
+use crate::utils::matrix::Matrix3;
 use crate::vectors::Vector3;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct SimplePlane {
     pub origin: Vector3,
     pub normal: Vector3,
-}
-
-fn inv33(mat: [f64; 9]) -> Option<[f64; 9]> {
-    let det = mat[0] * (mat[4] * mat[8] - mat[5] * mat[7])
-        - mat[1] * (mat[3] * mat[8] - mat[5] * mat[6])
-        + mat[2] * (mat[3] * mat[7] - mat[4] * mat[6]);
-    if det == 0.0 {
-        None
-    } else {
-        let cof = [
-            mat[4] * mat[8] - mat[5] * mat[7],
-            mat[5] * mat[6] - mat[3] * mat[8],
-            mat[3] * mat[7] - mat[4] * mat[6],
-            mat[2] * mat[7] - mat[1] * mat[6],
-            mat[0] * mat[8] - mat[2] * mat[6],
-            mat[1] * mat[6] - mat[0] * mat[7],
-            mat[1] * mat[5] - mat[2] * mat[4],
-            mat[2] * mat[3] - mat[0] * mat[5],
-            mat[0] * mat[4] - mat[1] * mat[3],
-        ];
-        let adj = [
-            cof[0], cof[3], cof[6], cof[1], cof[4], cof[7], cof[2], cof[5], cof[8],
-        ];
-        Some(adj.map(|v| v / det))
-    }
-}
-fn matmulvec(mat: [f64; 9], v: [f64; 3]) -> [f64; 3] {
-    [
-        mat[0] * v[0] + mat[1] * v[1] + mat[2] * v[2],
-        mat[3] * v[0] + mat[4] * v[1] + mat[5] * v[2],
-        mat[6] * v[0] + mat[7] * v[1] + mat[8] * v[2],
-    ]
 }
 
 impl SimplePlane {
@@ -67,15 +36,17 @@ impl SimplePlane {
             sum_xz += p.x * p.z;
             sum_yz += p.y * p.z;
         }
-        let forward_matrix = [
-            sum_x2, sum_xy, sum_x, sum_xy, sum_y2, sum_y, sum_x, sum_y, 1.0,
-        ];
-        let reverse_matrix = inv33(forward_matrix).unwrap();
-        let v = [sum_xz, sum_yz, sum_z];
-        let param_vector = matmulvec(reverse_matrix, v);
-        let mx = param_vector[0];
-        let my = param_vector[1];
-        let c = param_vector[2];
+        let forward_matrix = Matrix3::new([
+            [sum_x2, sum_xy, sum_x],
+            [sum_xy, sum_y2, sum_y],
+            [sum_x, sum_y, 1.0],
+        ]);
+        let reverse_matrix = forward_matrix.inverse().unwrap();
+        let v = Vector3::new(sum_xz, sum_yz, sum_z);
+        let param_vector = reverse_matrix * v;
+        let mx = param_vector.x;
+        let my = param_vector.y;
+        let c = param_vector.z;
         let mut square_error = 0.0;
         for pt in points {
             square_error += (pt.x * mx + pt.y * my + c - pt.z).powi(2);

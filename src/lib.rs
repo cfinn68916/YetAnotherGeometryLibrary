@@ -6,6 +6,7 @@ mod ray;
 mod rotation3;
 mod simple_plane;
 mod simple_tri;
+mod utils;
 mod vectors;
 
 pub fn add(left: u64, right: u64) -> u64 {
