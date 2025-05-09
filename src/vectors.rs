@@ -104,6 +104,9 @@ impl Vector3 {
             (*self) / self.magnitude()
         }
     }
+    pub fn with_magnitude(&self, magnitude: f64) -> Vector3 {
+        self.normd() * magnitude
+    }
 }
 
 impl ops::Add<Vector2> for Vector2 {

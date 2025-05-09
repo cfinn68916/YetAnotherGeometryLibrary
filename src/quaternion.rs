@@ -97,7 +97,7 @@ impl Quaternion {
     fn get_scalar(&self) -> f64 {
         self.w
     }
-    fn get_vector(&self) -> Vector3 {
+    pub(crate) fn get_vector(&self) -> Vector3 {
         Vector3::new(self.x, self.y, self.z)
     }
     pub fn dot(&self, rhs: &Quaternion) -> f64 {

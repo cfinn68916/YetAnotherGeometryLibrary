@@ -32,11 +32,32 @@ impl ops::Sub<Rotation3> for Rotation3 {
         }
     }
 }
-//
-// impl ops::Mul<f64> for Rotation3 {
-//     type Output = Rotation3;
-//     fn mul(self, other: f64) -> Self::Output {}
-// }
+
+impl ops::Mul<f64> for Rotation3 {
+    type Output = Rotation3;
+    fn mul(self, other: f64) -> Self::Output {
+        if self.q.w >= 0.0 {
+            Rotation3::from_axis_angle(
+                self.q
+                    .get_vector()
+                    .with_magnitude(2.0 * other * self.q.w.acos()),
+            )
+        } else {
+            Rotation3::from_axis_angle(
+                -self
+                    .q
+                    .get_vector()
+                    .with_magnitude(2.0 * other * (-self.q.w).acos()),
+            )
+        }
+    }
+}
+impl ops::Div<f64> for Rotation3 {
+    type Output = Rotation3;
+    fn div(self, other: f64) -> Self::Output {
+        self * (1.0 / other)
+    }
+}
 
 impl Rotation3 {
     pub fn identity() -> Rotation3 {
