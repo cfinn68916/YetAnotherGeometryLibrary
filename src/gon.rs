@@ -15,7 +15,11 @@ impl Triangle {
         (self.b - self.a).cross(&(self.c - self.b)) / 2.0
     }
     pub fn point_intersects(&self, pt: Vector2) -> bool {
-        (pt.x >= 0.0) && (pt.y >= 0.0) && (pt.x + pt.y <= 1.0)
+        let adj_pt = pt - self.a;
+        let x = (self.b - self.a) / (self.b - self.a).dot(&(self.b - self.a));
+        let y = (self.c - self.a) / (self.c - self.a).dot(&(self.c - self.a));
+        let lcs_pt = Vector2::new(x.dot(&adj_pt), y.dot(&adj_pt));
+        (lcs_pt.x >= 0.0) && (lcs_pt.y >= 0.0) && (lcs_pt.x + lcs_pt.y <= 1.0)
     }
 }
 
