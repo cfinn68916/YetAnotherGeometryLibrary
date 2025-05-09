@@ -49,36 +49,38 @@ impl SimplePlane {
         SimplePlane::new(Vector3::new(0.0, 0.0, c), Vector3::new(mx, my, -1.0))
     }
     pub fn regress(points: &Vec<Vector3>) -> (SimplePlane, f64) {
-        let mut sx = 0.0;
-        let mut sy = 0.0;
-        let mut sz = 0.0;
-        let mut sxy = 0.0;
-        let mut sxz = 0.0;
-        let mut syz = 0.0;
-        let mut sx2 = 0.0;
-        let mut sy2 = 0.0;
+        let mut sum_x = 0.0;
+        let mut sum_y = 0.0;
+        let mut sum_z = 0.0;
+        let mut sum_xy = 0.0;
+        let mut sum_xz = 0.0;
+        let mut sum_yz = 0.0;
+        let mut sum_x2 = 0.0;
+        let mut sum_y2 = 0.0;
         for p in points {
-            sx += p.x;
-            sy += p.y;
-            sz += p.z;
-            sx2 += p.x * p.x;
-            sy2 += p.y * p.y;
-            sxy += p.x * p.y;
-            sxz += p.x * p.z;
-            syz += p.y * p.z;
+            sum_x += p.x;
+            sum_y += p.y;
+            sum_z += p.z;
+            sum_x2 += p.x * p.x;
+            sum_y2 += p.y * p.y;
+            sum_xy += p.x * p.y;
+            sum_xz += p.x * p.z;
+            sum_yz += p.y * p.z;
         }
-        let fwdmat = [sx2, sxy, sx, sxy, sy2, sy, sx, sy, 1.0];
-        let invmat = inv33(fwdmat).unwrap();
-        let v = [sxz, syz, sz];
-        let retvec = matmulvec(invmat, v);
-        let mx = retvec[0];
-        let my = retvec[1];
-        let c = retvec[2];
-        let mut lse = 0.0;
+        let forward_matrix = [
+            sum_x2, sum_xy, sum_x, sum_xy, sum_y2, sum_y, sum_x, sum_y, 1.0,
+        ];
+        let reverse_matrix = inv33(forward_matrix).unwrap();
+        let v = [sum_xz, sum_yz, sum_z];
+        let param_vector = matmulvec(reverse_matrix, v);
+        let mx = param_vector[0];
+        let my = param_vector[1];
+        let c = param_vector[2];
+        let mut square_error = 0.0;
         for pt in points {
-            lse += (pt.x * mx + pt.y * my + c - pt.z).powi(2);
+            square_error += (pt.x * mx + pt.y * my + c - pt.z).powi(2);
         }
-        (Self::from_mxb(mx, my, c), lse)
+        (Self::from_mxb(mx, my, c), square_error)
     }
 
     //TODO:test
