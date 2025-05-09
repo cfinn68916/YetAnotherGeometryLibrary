@@ -1,6 +1,7 @@
 use crate::vectors::Vector3;
 use std::ops;
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Matrix3 {
     data: [[f64; 3]; 3],
 }

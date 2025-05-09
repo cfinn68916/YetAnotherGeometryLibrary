@@ -66,7 +66,7 @@ impl Tetrahedron {
         sf[0].area() + sf[1].area() + sf[2].area() + sf[3].area()
     }
 }
-
+#[derive(Debug, PartialEq, Clone)]
 pub struct Polyhedron {
     points: Vec<Vector3>,
     faces: Vec<(usize, usize, usize)>,

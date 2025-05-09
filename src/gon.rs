@@ -1,5 +1,6 @@
 use crate::vectors::Vector2;
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 struct Triangle {
     a: Vector2,
     b: Vector2,
@@ -18,6 +19,7 @@ impl Triangle {
     }
 }
 
+#[derive(Debug, PartialEq, Clone)]
 pub struct Polygon {
     points: Vec<Vector2>,
 }

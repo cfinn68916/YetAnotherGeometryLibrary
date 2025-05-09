@@ -125,6 +125,7 @@ impl SimplePlane {
     }
 }
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct CoordinatePlane {
     pub origin: Vector3,
     pub x: Vector3,

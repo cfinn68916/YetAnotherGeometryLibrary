@@ -16,6 +16,7 @@ impl Line {
     }
 }
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct LineSegment {
     pub a: Vector3,
     pub b: Vector3,

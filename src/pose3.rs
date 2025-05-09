@@ -2,6 +2,7 @@ use crate::rotation3::Rotation3;
 use crate::vectors::Vector3;
 use std::ops;
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Pose3 {
     position: Vector3,
     orientation: Rotation3,
