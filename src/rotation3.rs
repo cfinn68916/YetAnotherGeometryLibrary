@@ -68,6 +68,12 @@ impl Rotation3 {
     pub fn new(q: Quaternion) -> Rotation3 {
         Rotation3 { q }
     }
+    pub fn rotate_vector(&self, vector: Vector3) -> Vector3 {
+        // https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternions_as_rotations
+        // Accessed 2025/5/9
+        let other_as_quaternion = Quaternion::from_scalar_vector(0.0, vector);
+        (other_as_quaternion.clone() * self.q * (other_as_quaternion.inverse())).get_vector()
+    }
     pub fn from_axis_angle(v: Vector3) -> Rotation3 {
         Rotation3 {
             q: Quaternion::from_rotation_vector(v),

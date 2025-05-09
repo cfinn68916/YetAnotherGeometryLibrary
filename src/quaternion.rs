@@ -1,6 +1,7 @@
 use crate::vectors::Vector3;
 use std::ops;
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Quaternion {
     pub w: f64,
     pub x: f64,
@@ -91,7 +92,7 @@ impl Quaternion {
             Self::from_scalar_vector((theta / 2.0).cos(), rvec.normd() * (theta / 2.0).sin())
         }
     }
-    fn from_scalar_vector(scalar: f64, vector: Vector3) -> Self {
+    pub(crate) fn from_scalar_vector(scalar: f64, vector: Vector3) -> Self {
         Quaternion::new(scalar, vector.x, vector.y, vector.z)
     }
     fn get_scalar(&self) -> f64 {
