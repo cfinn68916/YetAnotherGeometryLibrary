@@ -2,6 +2,7 @@ use crate::quaternion::Quaternion;
 use crate::vectors::Vector3;
 use std::ops;
 
+#[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Rotation3 {
     pub q: Quaternion,
 }

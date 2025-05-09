@@ -1,6 +1,7 @@
 mod gon;
 mod hedron;
 mod line;
+mod pose3;
 mod quaternion;
 mod ray;
 mod rotation3;
