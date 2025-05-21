@@ -143,4 +143,14 @@ impl Polyhedron {
             })
             .sum()
     }
+    pub fn get_obj(&self) -> String {
+        let mut ret = "# Automatically generated from polyhederon by YAGL\n".to_string();
+        for pt in &self.points {
+            ret += format!("v {} {} {}\n", pt.x, pt.y, pt.z).as_str();
+        }
+        for f in &self.faces {
+            ret += format!("f {} {} {}\n", f.0 + 1, f.1 + 1, f.2 + 1).as_str();
+        }
+        ret
+    }
 }

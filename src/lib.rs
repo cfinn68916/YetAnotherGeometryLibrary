@@ -10,8 +10,6 @@ pub mod simple_tri;
 pub mod utils;
 pub mod vectors;
 
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
