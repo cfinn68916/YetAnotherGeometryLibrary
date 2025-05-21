@@ -1,18 +1,16 @@
-mod gon;
-mod hedron;
-mod line;
-mod pose3;
-mod quaternion;
-mod ray;
-mod rotation3;
-mod simple_plane;
-mod simple_tri;
-mod utils;
-mod vectors;
+pub mod gon;
+pub mod hedron;
+pub mod line;
+pub mod pose3;
+pub mod quaternion;
+pub mod ray;
+pub mod rotation3;
+pub mod simple_plane;
+pub mod simple_tri;
+pub mod utils;
+pub mod vectors;
 
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+
 
 #[cfg(test)]
 mod tests {
@@ -23,11 +21,6 @@ mod tests {
     use crate::vectors::{Vector2, Vector3};
     use gon::Polygon;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
     #[test]
     fn test_vectors() {
         let i = Vector3 {
