@@ -99,9 +99,9 @@ impl Polyhedron {
         Self::new_unchecked(
             vec![
                 Vector3::zero(),
-                Vector3::ihat(),
-                Vector3::jhat(),
-                Vector3::khat(),
+                Vector3::i_hat(),
+                Vector3::j_hat(),
+                Vector3::k_hat(),
                 Vector3::new(0.0, 1.0, 1.0),
                 Vector3::new(1.0, 0.0, 1.0),
                 Vector3::new(1.0, 1.0, 0.0),

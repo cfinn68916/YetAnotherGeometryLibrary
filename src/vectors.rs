@@ -68,20 +68,20 @@ impl Vector3 {
     pub fn new(x: f64, y: f64, z: f64) -> Vector3 {
         Vector3 { x, y, z }
     }
-    pub fn ihat() -> Vector3 {
+    pub fn i_hat() -> Vector3 {
         Vector3::new(1.0, 0.0, 0.0)
     }
-    pub fn jhat() -> Vector3 {
+    pub fn j_hat() -> Vector3 {
         Vector3::new(0.0, 1.0, 0.0)
     }
-    pub fn khat() -> Vector3 {
+    pub fn k_hat() -> Vector3 {
         Vector3::new(0.0, 0.0, 1.0)
     }
 
     pub fn zero() -> Vector3 {
         Vector3::new(0.0, 0.0, 0.0)
     }
-    pub(crate) fn magnitude(&self) -> f64 {
+    pub fn magnitude(&self) -> f64 {
         (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
     pub fn dot(&self, rhs: &Vector3) -> f64 {
@@ -106,9 +106,9 @@ impl Vector3 {
     ///
     /// ```
     /// use YetAnotherGeometryLibrary::vectors::Vector3;
-    /// let x=Vector3::ihat();
-    /// let xy=Vector3::ihat()+Vector3::jhat();
-    /// let y=Vector3::jhat();
+    /// let x=Vector3::i_hat();
+    /// let xy=Vector3::i_hat()+Vector3::j_hat();
+    /// let y=Vector3::j_hat();
     /// let zero = Vector3::zero();
     /// assert_eq!(x.angle_cosine(&y),0.0);
     /// assert_eq!(x.angle_cosine(&x),1.0);
@@ -118,7 +118,7 @@ impl Vector3 {
     pub fn angle_cosine(&self, rhs: &Vector3) -> f64 {
         self.dot(rhs) / (self.magnitude() * rhs.magnitude())
     }
-    pub fn normd(&self) -> Vector3 {
+    pub fn hat(&self) -> Vector3 {
         if self.x == 0.0 && self.y == 0.0 {
             *self
         } else {
@@ -126,7 +126,7 @@ impl Vector3 {
         }
     }
     pub fn with_magnitude(&self, magnitude: f64) -> Vector3 {
-        self.normd() * magnitude
+        self.hat() * magnitude
     }
 }
 
@@ -180,6 +180,8 @@ impl Vector2 {
     pub fn new(x: f64, y: f64) -> Vector2 {
         Vector2 { x, y }
     }
+    pub fn i_hat() -> Vector2 {Vector2::new(1.0, 0.0)}
+    pub fn j_hat() -> Vector2 {Vector2::new(0.0, 1.0)}
     pub fn zero() -> Vector2 {
         Vector2::new(0.0, 0.0)
     }
@@ -195,7 +197,7 @@ impl Vector2 {
     pub fn angle_cosine(&self, rhs: &Vector2) -> f64 {
         self.dot(rhs) / (self.magnitude() * rhs.magnitude())
     }
-    pub fn normd(&self) -> Vector2 {
+    pub fn hat(&self) -> Vector2 {
         if self.x == 0.0 && self.y == 0.0 {
             *self
         } else {

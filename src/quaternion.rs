@@ -89,7 +89,7 @@ impl Quaternion {
         if theta.abs() < 1E-9 {
             Quaternion::default()
         } else {
-            Self::from_scalar_vector((theta / 2.0).cos(), rvec.normd() * (theta / 2.0).sin())
+            Self::from_scalar_vector((theta / 2.0).cos(), rvec.hat() * (theta / 2.0).sin())
         }
     }
     pub(crate) fn from_scalar_vector(scalar: f64, vector: Vector3) -> Self {

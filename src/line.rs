@@ -8,7 +8,7 @@ pub struct Line {
 
 impl Line {
     pub fn new(origin: Vector3, direction2: Vector3) -> Line {
-        let direction = direction2.normd();
+        let direction = direction2.hat();
         Line { origin, direction }
     }
     pub fn at(&self, t: f64) -> Vector3 {

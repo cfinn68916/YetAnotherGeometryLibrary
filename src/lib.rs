@@ -89,9 +89,9 @@ mod tests {
     fn test_hedron() {
         let hedr = Tetrahedron::new(
             Vector3::zero(),
-            Vector3::ihat() * 3.0,
-            Vector3::jhat() * 3.0,
-            -Vector3::khat() * 3.0,
+            Vector3::i_hat() * 3.0,
+            Vector3::j_hat() * 3.0,
+            -Vector3::k_hat() * 3.0,
         );
         assert_eq!(hedr.volume(), -4.5);
     }

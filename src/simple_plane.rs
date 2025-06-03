@@ -11,7 +11,7 @@ pub struct SimplePlane {
 
 impl SimplePlane {
     pub fn new(origin: Vector3, normal2: Vector3) -> Self {
-        let normal = normal2.normd();
+        let normal = normal2.hat();
         Self { origin, normal }
     }
     pub fn from_mxb(mx: f64, my: f64, c: f64) -> Self {
