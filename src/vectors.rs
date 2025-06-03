@@ -94,6 +94,27 @@ impl Vector3 {
             z: self.x * rhs.y - self.y * rhs.x,
         }
     }
+    /// Gets the cosine of the angle between the vectors
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs`: The vector to calculate the angle between
+    ///
+    /// returns: f64
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use YetAnotherGeometryLibrary::vectors::Vector3;
+    /// let x=Vector3::ihat();
+    /// let xy=Vector3::ihat()+Vector3::jhat();
+    /// let y=Vector3::jhat();
+    /// let zero = Vector3::zero();
+    /// assert_eq!(x.angle_cosine(&y),0.0);
+    /// assert_eq!(x.angle_cosine(&x),1.0);
+    /// assert!((x.angle_cosine(&xy)-std::f64::consts::FRAC_1_SQRT_2).abs()<1E-9f64);
+    /// assert!(x.angle_cosine(&zero).is_nan());
+    /// ```
     pub fn angle_cosine(&self, rhs: &Vector3) -> f64 {
         self.dot(rhs) / (self.magnitude() * rhs.magnitude())
     }
