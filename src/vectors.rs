@@ -1,3 +1,4 @@
+use crate::quaternion::Quaternion;
 use std::ops;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -61,6 +62,13 @@ impl ops::Neg for Vector3 {
             y: -self.y,
             z: -self.z,
         }
+    }
+}
+impl ops::Mul<Vector3> for Vector3 {
+    type Output = Quaternion;
+    fn mul(self, rhs: Vector3) -> Self::Output {
+        // https://en.wikipedia.org/wiki/Quaternion#Quaternions_and_three-dimensional_geometry
+        Quaternion::from_scalar_vector(self.dot(&rhs), self.cross(&rhs))
     }
 }
 
@@ -180,8 +188,12 @@ impl Vector2 {
     pub fn new(x: f64, y: f64) -> Vector2 {
         Vector2 { x, y }
     }
-    pub fn i_hat() -> Vector2 {Vector2::new(1.0, 0.0)}
-    pub fn j_hat() -> Vector2 {Vector2::new(0.0, 1.0)}
+    pub fn i_hat() -> Vector2 {
+        Vector2::new(1.0, 0.0)
+    }
+    pub fn j_hat() -> Vector2 {
+        Vector2::new(0.0, 1.0)
+    }
     pub fn zero() -> Vector2 {
         Vector2::new(0.0, 0.0)
     }
