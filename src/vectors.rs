@@ -85,7 +85,6 @@ impl Vector3 {
     pub fn k_hat() -> Vector3 {
         Vector3::new(0.0, 0.0, 1.0)
     }
-
     pub fn zero() -> Vector3 {
         Vector3::new(0.0, 0.0, 0.0)
     }
@@ -94,6 +93,9 @@ impl Vector3 {
     }
     pub fn dot(&self, rhs: &Vector3) -> f64 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
+    }
+    pub fn as_array(&self) -> [f64; 3] {
+        [self.x, self.y, self.z]
     }
     pub fn cross(&self, rhs: &Vector3) -> Vector3 {
         Vector3 {
@@ -127,7 +129,7 @@ impl Vector3 {
         self.dot(rhs) / (self.magnitude() * rhs.magnitude())
     }
     pub fn hat(&self) -> Vector3 {
-        if self.x == 0.0 && self.y == 0.0 {
+        if self.x == 0.0 && self.y == 0.0 && self.z == 0.0 {
             *self
         } else {
             (*self) / self.magnitude()

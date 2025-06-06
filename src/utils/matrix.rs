@@ -3,7 +3,7 @@ use std::ops;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Matrix3 {
-    data: [[f64; 3]; 3],
+    pub data: [[f64; 3]; 3],
 }
 impl ops::Neg for Matrix3 {
     type Output = Matrix3;
@@ -52,6 +52,9 @@ impl ops::Mul<f64> for Matrix3 {
 impl Matrix3 {
     pub fn new(data: [[f64; 3]; 3]) -> Self {
         Self { data }
+    }
+    pub fn identity() -> Self {
+        Self::new([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
     }
     fn from_flat(data: [f64; 9]) -> Self {
         Self::new([
