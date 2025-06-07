@@ -48,7 +48,7 @@ impl Pose3 {
             orientation,
         }
     }
-    pub fn zero() -> Self {
+    pub fn identity() -> Self {
         Self::new(Vector3::zero(), Rotation3::identity())
     }
 }
