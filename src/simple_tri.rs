@@ -1,4 +1,5 @@
 use crate::ray::Ray;
+use crate::simple_plane::Intersection;
 use crate::vectors::{Vector2, Vector3};
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -36,43 +37,47 @@ impl SimpleTriangle {
         self.normal().magnitude()
     }
     //TODO:test
-    pub fn point_intersects(&self, other: Vector3) -> bool {
+    pub fn point_intersects(&self, other: Vector3) -> Intersection {
         let other_adj = other - self.a;
         let b_adj = self.b - self.a;
         let c_adj = self.c - self.a;
         if other_adj.dot(&self.normal()) != 0.0 {
-            false
+            Intersection::Never
         } else {
             let coord = Vector2::new(
                 other_adj.dot(&b_adj) / (b_adj.dot(&b_adj)),
                 other_adj.dot(&c_adj) / (c_adj.dot(&c_adj)),
             );
-            (coord.x >= 0.0) && (coord.y >= 0.0) && (coord.x + coord.y <= 1.0)
+            if (coord.x >= 0.0) && (coord.y >= 0.0) && (coord.x + coord.y <= 1.0) {
+                if coord.x == 0.0 || coord.y == 0.0 || coord.x + coord.y == 1.0 {
+                    Intersection::Edge(other)
+                } else {
+                    Intersection::Once(other)
+                }
+            } else {
+                Intersection::Never
+            }
         }
     }
     //TODO:test
-    pub fn ray_intersects(&self, other: Ray) -> Result<Vector3, String> {
+    pub fn ray_intersects(&self, other: Ray) -> Intersection {
         let origin = self.a;
         let adjusted_ray = Ray::new(other.origin - origin, other.direction);
 
         if adjusted_ray.direction.dot(&self.normal()) == 0.0
             && adjusted_ray.origin.dot(&self.normal()) != 0.0
         {
-            Err("Ray is perpendicular to plane".to_string())
+            Intersection::Never
         } else if adjusted_ray.direction.dot(&self.normal()) == 0.0 {
-            Err("Ray lies completely on plane".to_string())
+            Intersection::LiesOn
         } else {
             let no = self.normal().dot(&adjusted_ray.origin);
             let nv = self.normal().dot(&adjusted_ray.direction);
             if -no / nv < 0.0 {
-                Err("Ray points away from plane".to_string())
+                Intersection::Never
             } else {
                 let pt = adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + origin;
-                if self.point_intersects(pt) {
-                    Ok(pt)
-                } else {
-                    Err("Ray intersects outside of triangle".to_string())
-                }
+                self.point_intersects(pt)
             }
         }
     }

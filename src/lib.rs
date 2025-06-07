@@ -17,7 +17,7 @@ mod tests {
     use crate::pose3::Pose3;
     use crate::ray::Ray;
     use crate::rotation3::Rotation3;
-    use crate::simple_plane::SimplePlane;
+    use crate::simple_plane::{Intersection, SimplePlane};
     use crate::vectors::{Vector2, Vector3};
     use gon::Polygon;
 
@@ -70,21 +70,21 @@ mod tests {
                 Vector3::new(0.0, 0.0, 0.0),
                 Vector3::new(0.0, 1.0, 0.0)
             )),
-            Err("Ray is perpendicular to plane".to_string())
+            Intersection::Never
         );
         assert_eq!(
             plane.ray_intersects(Ray::new(
                 Vector3::new(0.0, 0.0, 0.0),
                 Vector3::new(-1.0, 0.0, 0.0)
             )),
-            Err("Ray points away from plane".to_string())
+            Intersection::Never
         );
         assert_eq!(
             plane.ray_intersects(Ray::new(
                 Vector3::new(0.0, 2.0, 1.0),
                 Vector3::new(1.0, 5.0, 3.0)
             )),
-            Ok(Vector3::new(1.0, 7.0, 4.0))
+            Intersection::Once(Vector3::new(1.0, 7.0, 4.0))
         )
     }
     #[test]

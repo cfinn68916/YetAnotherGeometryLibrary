@@ -3,6 +3,14 @@ use crate::ray::Ray;
 use crate::utils::matrix::Matrix3;
 use crate::vectors::Vector3;
 
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum Intersection {
+    Once(Vector3),
+    Edge(Vector3),
+    LiesOn,
+    Never,
+}
+
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct SimplePlane {
     pub origin: Vector3,
@@ -71,55 +79,61 @@ impl SimplePlane {
     /// ```
     ///
     /// ```
-    pub fn ray_intersects(&self, other: Ray) -> Result<Vector3, String> {
+    pub fn ray_intersects(&self, other: Ray) -> Intersection {
         let adjusted_ray = Ray::new(other.origin - self.origin, other.direction);
         if adjusted_ray.direction.dot(&self.normal) == 0.0
             && adjusted_ray.origin.dot(&self.normal) != 0.0
         {
-            Err("Ray is perpendicular to plane".to_string())
+            Intersection::Never
         } else if adjusted_ray.direction.dot(&self.normal) == 0.0 {
-            Ok(other.origin)
+            Intersection::LiesOn
         } else {
             let no = self.normal.dot(&adjusted_ray.origin);
             let nv = self.normal.dot(&adjusted_ray.direction);
             if -no / nv < 0.0 {
-                Err("Ray points away from plane".to_string())
+                Intersection::Never
             } else {
-                Ok(adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + self.origin)
+                Intersection::Once(
+                    adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + self.origin,
+                )
             }
         }
     }
     //TODO:test
-    pub fn line_intersects(&self, other: Line) -> Result<Vector3, String> {
+    pub fn line_intersects(&self, other: Line) -> Intersection {
         let adjusted_line = Line::new(other.origin - self.origin, other.direction);
         if adjusted_line.direction.dot(&self.normal) == 0.0
             && adjusted_line.origin.dot(&self.normal) != 0.0
         {
-            Err("Line is perpendicular to plane".to_string())
+            Intersection::Never
         } else if adjusted_line.direction.dot(&self.normal) == 0.0 {
-            Ok(other.origin)
+            Intersection::LiesOn
         } else {
             let no = self.normal.dot(&adjusted_line.origin);
             let nv = self.normal.dot(&adjusted_line.direction);
-            Ok(adjusted_line.origin + adjusted_line.direction * (-no / nv) + self.origin)
+            Intersection::Once(
+                adjusted_line.origin + adjusted_line.direction * (-no / nv) + self.origin,
+            )
         }
     }
     //TODO:test
-    pub fn segment_intersects(&self, other: LineSegment) -> Result<Vector3, String> {
+    pub fn segment_intersects(&self, other: LineSegment) -> Intersection {
         let adjusted_line = LineSegment::new(other.a - self.origin, other.b - self.origin);
         if (adjusted_line.b - adjusted_line.a).dot(&self.normal) == 0.0
             && adjusted_line.a.dot(&self.normal) != 0.0
         {
-            Err("Line is perpendicular to plane".to_string())
+            Intersection::Never
         } else if (adjusted_line.b - adjusted_line.a).dot(&self.normal) == 0.0 {
-            Ok(other.a)
+            Intersection::LiesOn
         } else {
             let no = self.normal.dot(&adjusted_line.a);
             let nv = self.normal.dot(&(adjusted_line.b - adjusted_line.a));
-            if 1.0 >= (-no / nv) && (-no / nv) >= 0.0 {
-                Ok(adjusted_line.b * (-no / nv) + self.origin)
+            if 1.0 > (-no / nv) && (-no / nv) > 0.0 {
+                Intersection::Once(adjusted_line.b * (-no / nv) + self.origin)
+            } else if 1.0 == (-no / nv) || (-no / nv) == 0.0 {
+                Intersection::Edge(adjusted_line.b * (-no / nv) + self.origin)
             } else {
-                Err("Segment is outside the plane".to_string())
+                Intersection::Never
             }
         }
     }
