@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile code
+        run: cargo build -v
+      - name: Test code
+        run: cargo test -v
+      - name: Check code formatting
+        run: cargo-fmt --check
