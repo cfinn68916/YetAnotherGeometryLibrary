@@ -1,13 +1,24 @@
 use crate::vectors::Vector3;
 use std::ops;
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct Quaternion {
     pub w: f64,
     pub x: f64,
     pub y: f64,
     pub z: f64,
 }
+
+impl PartialEq for Quaternion {
+    fn eq(&self, other: &Self) -> bool {
+        (self.w - other.w).abs()
+            + (self.x - other.x).abs()
+            + (self.y - other.y).abs()
+            + (self.z - other.z).abs()
+            < 1e-12
+    }
+}
+
 impl Default for Quaternion {
     fn default() -> Quaternion {
         Quaternion {

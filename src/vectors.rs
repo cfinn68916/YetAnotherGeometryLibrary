@@ -1,17 +1,29 @@
 use crate::quaternion::Quaternion;
 use std::ops;
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct Vector3 {
     pub x: f64,
     pub y: f64,
     pub z: f64,
 }
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct Vector2 {
     pub x: f64,
     pub y: f64,
+}
+
+impl PartialEq for Vector2 {
+    fn eq(&self, other: &Self) -> bool {
+        self.dist_to(other) < 1e-12
+    }
+}
+
+impl PartialEq for Vector3 {
+    fn eq(&self, other: &Self) -> bool {
+        self.dist_to(other) < 1e-12
+    }
 }
 
 impl ops::Add<Vector3> for Vector3 {
@@ -138,6 +150,9 @@ impl Vector3 {
     pub fn with_magnitude(&self, magnitude: f64) -> Vector3 {
         self.hat() * magnitude
     }
+    pub fn dist_to(&self, other: &Vector3) -> f64 {
+        (*self - *other).magnitude()
+    }
 }
 
 impl ops::Add<Vector2> for Vector2 {
@@ -217,5 +232,8 @@ impl Vector2 {
         } else {
             (*self) / self.magnitude()
         }
+    }
+    pub fn dist_to(&self, other: &Vector2) -> f64 {
+        (*self - *other).magnitude()
     }
 }
