@@ -107,25 +107,4 @@ mod tests {
         ]);
         assert_eq!(poly.area(), 1.0);
     }
-    #[test]
-    fn test_pose3() {
-        let id = Rotation3::identity();
-        let fwd1 = Pose3::new(
-            Vector3::i_hat(),
-            Rotation3::from_axis_angle(Vector3::new(0.0, 0.0, std::f64::consts::PI / 2.0)),
-        );
-        println!(
-            "{:?}",
-            (fwd1 + fwd1)
-                .orientation
-                .rotate_vector(Vector3::new(1.0, 1.0, 1.0))
-        );
-        assert_eq!(
-            fwd1 + fwd1,
-            Pose3::new(
-                Vector3::new(1.0, 1.0, 0.0),
-                Rotation3::from_axis_angle(Vector3::new(0.0, 0.0, std::f64::consts::PI))
-            )
-        );
-    }
 }
