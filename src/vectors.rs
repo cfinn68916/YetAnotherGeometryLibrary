@@ -140,6 +140,17 @@ impl Vector3 {
     pub fn angle_cosine(&self, rhs: &Vector3) -> f64 {
         self.dot(rhs) / (self.magnitude() * rhs.magnitude())
     }
+    /// Gets the normalized vector
+    ///
+    /// returns: Vector3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use YetAnotherGeometryLibrary::vectors::Vector3;
+    /// assert_eq!(Vector3::new(2.0,3.0,6.0).hat(),Vector3::new(2.0/7.0,3.0/7.0,6.0/7.0));
+    /// assert_eq!(Vector3::zero().hat(),Vector3::zero());
+    /// ```
     pub fn hat(&self) -> Vector3 {
         if self.x == 0.0 && self.y == 0.0 && self.z == 0.0 {
             *self
@@ -147,6 +158,18 @@ impl Vector3 {
             (*self) / self.magnitude()
         }
     }
+    /// Returns a vector with a new magnitude
+    ///
+    /// returns: Vector3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use YetAnotherGeometryLibrary::vectors::Vector3;
+    /// assert_eq!(Vector3::new(2.0,3.0,6.0).with_magnitude(70.0),Vector3::new(20.0,30.0,60.0));
+    /// assert_eq!(Vector3::zero().with_magnitude(100.0),Vector3::zero());
+    /// assert_eq!(Vector3::i_hat().with_magnitude(0.0),Vector3::zero());
+    /// ```
     pub fn with_magnitude(&self, magnitude: f64) -> Vector3 {
         if self.magnitude() == 0.0 {
             Vector3::zero()
