@@ -21,7 +21,15 @@ impl Ray {
     /// # Examples
     ///
     /// ```
+    /// use YetAnotherGeometryLibrary::ray;
+    /// use YetAnotherGeometryLibrary::ray::Ray;
+    /// use YetAnotherGeometryLibrary::vectors::Vector3;
     ///
+    /// let pt=Vector3::new(2.0,1.0,5.0);
+    /// assert_eq!(Ray::new(Vector3::new(2.0,1.0,5.0),Vector3::new(1.0,0.0,0.0)).points_away(pt),0);
+    /// assert_eq!(Ray::new(Vector3::new(3.0,2.0,6.0),Vector3::new(1.0,0.0,0.0)).points_away(pt),1);
+    /// assert_eq!(Ray::new(Vector3::new(3.0,2.0,6.0),Vector3::new(-1.0,0.0,0.0)).points_away(pt),-1);
+    /// assert_eq!(Ray::new(Vector3::new(3.0,2.0,6.0),Vector3::new(-1.0,1.0,0.0)).points_away(pt),0);
     /// ```
     pub fn points_away(&self, point: Vector3) -> i8 {
         let adj_pt = point - self.origin;
