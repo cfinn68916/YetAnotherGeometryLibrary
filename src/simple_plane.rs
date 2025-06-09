@@ -66,18 +66,27 @@ impl SimplePlane {
     pub fn point_intersects(&self, other: Vector3) -> bool {
         self.normal.dot(&(self.origin - other)) == 0.0
     }
-    /// Determines if/where a ray will hit this plane. If the ray lies on the plane, it returns the origin of the ray. If it hits once (ie: origin is on the plane) it returns the origin.
+    /// Determines if/where a ray will hit this plane.
     ///
     /// # Arguments
     ///
     /// * `other`: The ray to test
     ///
-    /// returns: Result<Vector3, String>
+    /// returns: Intersection
     ///
     /// # Examples
     ///
     /// ```
-    ///
+    /// use YetAnotherGeometryLibrary::ray::Ray;
+    /// use YetAnotherGeometryLibrary::simple_plane::{Intersection, SimplePlane};
+    /// use YetAnotherGeometryLibrary::vectors::Vector3;
+    /// let ray1=Ray::new(Vector3::new(3.0,0.0,0.0),Vector3::new(1.0,0.0,0.0));
+    /// let ray2=Ray::new(Vector3::new(2.0,0.0,0.0),Vector3::new(-1.0,1.0,0.0));
+    /// let ray3=Ray::new(Vector3::new(4.0,5.0,2.0),Vector3::new(-1.0,0.0,0.0));
+    /// let plane=SimplePlane::new(Vector3::new(2.0,0.0,0.0),Vector3::new(1.0,1.0,1.0));
+    /// assert_eq!(plane.ray_intersects(ray1),Intersection::Never);
+    /// assert_eq!(plane.ray_intersects(ray2),Intersection::LiesOn);
+    /// assert_eq!(plane.ray_intersects(ray3),Intersection::Once(Vector3::new(-5.0,5.0,2.0)));
     /// ```
     pub fn ray_intersects(&self, other: Ray) -> Intersection {
         let adjusted_ray = Ray::new(other.origin - self.origin, other.direction);
@@ -99,7 +108,28 @@ impl SimplePlane {
             }
         }
     }
-    //TODO:test
+    /// Determines if/where a segment will hit this plane.
+    ///
+    /// # Arguments
+    ///
+    /// * `other`: The segment to test
+    ///
+    /// returns: Intersection
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use YetAnotherGeometryLibrary::ray::Ray;
+    /// use YetAnotherGeometryLibrary::simple_plane::{Intersection, SimplePlane};
+    /// use YetAnotherGeometryLibrary::vectors::Vector3;
+    /// let ray1=Ray::new(Vector3::new(3.0,0.0,0.0),Vector3::new(1.0,0.0,0.0));
+    /// let ray2=Ray::new(Vector3::new(2.0,0.0,0.0),Vector3::new(-1.0,1.0,0.0));
+    /// let ray3=Ray::new(Vector3::new(4.0,5.0,2.0),Vector3::new(-1.0,0.0,0.0));
+    /// let plane=SimplePlane::new(Vector3::new(2.0,0.0,0.0),Vector3::new(1.0,1.0,1.0));
+    /// assert_eq!(plane.ray_intersects(ray1),Intersection::Never);
+    /// assert_eq!(plane.ray_intersects(ray2),Intersection::LiesOn);
+    /// assert_eq!(plane.ray_intersects(ray3),Intersection::Once(Vector3::new(-5.0,5.0,2.0)));
+    /// ```
     pub fn line_intersects(&self, other: Line) -> Intersection {
         let adjusted_line = Line::new(other.origin - self.origin, other.direction);
         if adjusted_line.direction.dot(&self.normal) == 0.0

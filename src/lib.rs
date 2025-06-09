@@ -14,10 +14,6 @@ pub mod vectors;
 mod tests {
     use super::*;
     use crate::hedron::Tetrahedron;
-    use crate::pose3::Pose3;
-    use crate::ray::Ray;
-    use crate::rotation3::Rotation3;
-    use crate::simple_plane::{Intersection, SimplePlane};
     use crate::vectors::{Vector2, Vector3};
     use gon::Polygon;
 
@@ -60,32 +56,6 @@ mod tests {
         assert_eq!(i.cross(&j), k);
         assert_eq!(j.cross(&i), -k);
         assert_eq!(i.cross(&(j * 2.0)), k * 2.0)
-    }
-    #[test]
-    fn test_ray() {
-        let plane = SimplePlane::new(Vector3::new(1.0, 0.0, 0.0), Vector3::new(1.0, 0.0, 0.0));
-
-        assert_eq!(
-            plane.ray_intersects(Ray::new(
-                Vector3::new(0.0, 0.0, 0.0),
-                Vector3::new(0.0, 1.0, 0.0)
-            )),
-            Intersection::Never
-        );
-        assert_eq!(
-            plane.ray_intersects(Ray::new(
-                Vector3::new(0.0, 0.0, 0.0),
-                Vector3::new(-1.0, 0.0, 0.0)
-            )),
-            Intersection::Never
-        );
-        assert_eq!(
-            plane.ray_intersects(Ray::new(
-                Vector3::new(0.0, 2.0, 1.0),
-                Vector3::new(1.0, 5.0, 3.0)
-            )),
-            Intersection::Once(Vector3::new(1.0, 7.0, 4.0))
-        )
     }
     #[test]
     fn test_hedron() {
