@@ -67,7 +67,7 @@ impl Matrix3 {
         vec![
             Vector3::new(self.data[0][0], self.data[0][1], self.data[0][2]),
             Vector3::new(self.data[1][0], self.data[1][1], self.data[1][2]),
-            Vector3::new(self.data[1][0], self.data[2][1], self.data[2][2]),
+            Vector3::new(self.data[2][0], self.data[2][1], self.data[2][2]),
         ]
     }
     fn flat_array(&self) -> [f64; 9] {
