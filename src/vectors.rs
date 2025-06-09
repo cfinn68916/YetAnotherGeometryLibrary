@@ -148,7 +148,11 @@ impl Vector3 {
         }
     }
     pub fn with_magnitude(&self, magnitude: f64) -> Vector3 {
-        self.hat() * magnitude
+        if self.magnitude() == 0.0 {
+            Vector3::zero()
+        } else {
+            (*self) * magnitude / self.magnitude()
+        }
     }
     pub fn dist_to(&self, other: &Vector3) -> f64 {
         (*self - *other).magnitude()
