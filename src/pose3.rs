@@ -1,6 +1,6 @@
 use crate::rotation3::Rotation3;
 use crate::vectors::Vector3;
-use std::ops;
+use core::ops;
 
 /// A pose (position plus orientation) in 3d
 ///

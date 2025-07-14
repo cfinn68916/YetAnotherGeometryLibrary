@@ -37,9 +37,9 @@ impl Ray {
         if dt == 0.0 {
             0
         } else if dt > 0.0 {
-            -1
+            return -1;
         } else {
-            1
+            return 1;
         }
     }
 }

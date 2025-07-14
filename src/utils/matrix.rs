@@ -1,5 +1,5 @@
 use crate::vectors::Vector3;
-use std::ops;
+use core::ops;
 
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub struct Matrix3 {

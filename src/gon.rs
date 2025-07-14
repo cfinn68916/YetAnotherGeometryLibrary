@@ -36,12 +36,7 @@ impl Polygon {
     pub fn area(&self) -> f64 {
         let mut sum = 0.0;
         for i in 1..self.points.len() - 1 {
-            sum += Triangle::new(
-                self.points[0].clone(),
-                self.points[i].clone(),
-                self.points[i + 1].clone(),
-            )
-            .area();
+            sum += Triangle::new(self.points[0], self.points[i], self.points[i + 1]).area();
         }
         sum
     }

@@ -83,14 +83,14 @@ impl Polyhedron {
     }
     //TODO:Impl
     pub fn new(points: Vec<Vector3>, faces: Vec<(usize, usize, usize)>) -> Result<Self, String> {
-        Err("NOIMPL".to_string())
+        Err("NOIMPL".to_owned())
     }
     //TODO:Impl
     pub fn new_autofix(
         points: Vec<Vector3>,
         faces: Vec<(usize, usize, usize)>,
     ) -> Result<Self, String> {
-        Err("NOIMPL".to_string())
+        Err("NOIMPL".to_owned())
     }
     pub fn new_unchecked(points: Vec<Vector3>, faces: Vec<(usize, usize, usize)>) -> Self {
         Self { points, faces }

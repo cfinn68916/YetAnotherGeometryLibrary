@@ -1,5 +1,5 @@
 use crate::quaternion::Quaternion;
-use std::ops;
+use core::ops;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Vector3 {

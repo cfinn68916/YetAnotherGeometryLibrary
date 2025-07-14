@@ -14,7 +14,7 @@ impl SimpleTriangle {
         SimpleTriangle { a, b, c }
     }
 
-    /// Computes the normal of the triangle. Normal is defined as ABxAC, or a vector with the length of the area of the triangle.
+    /// Computes the normal of the triangle. Normal is defined as `ABxAC`, or a vector with the length of the area of the triangle.
     ///
     /// returns: Result<Vector3, String>
     ///
@@ -41,9 +41,7 @@ impl SimpleTriangle {
         let other_adj = other - self.a;
         let b_adj = self.b - self.a;
         let c_adj = self.c - self.a;
-        if other_adj.dot(&self.normal()) != 0.0 {
-            Intersection::Never
-        } else {
+        if other_adj.dot(&self.normal()) == 0.0 {
             let coord = Vector2::new(
                 other_adj.dot(&b_adj) / (b_adj.dot(&b_adj)),
                 other_adj.dot(&c_adj) / (c_adj.dot(&c_adj)),
@@ -57,6 +55,8 @@ impl SimpleTriangle {
             } else {
                 Intersection::Never
             }
+        } else {
+            Intersection::Never
         }
     }
     //TODO:test
@@ -69,15 +69,15 @@ impl SimpleTriangle {
         {
             Intersection::Never
         } else if adjusted_ray.direction.dot(&self.normal()) == 0.0 {
-            Intersection::LiesOn
+            return Intersection::LiesOn;
         } else {
             let no = self.normal().dot(&adjusted_ray.origin);
             let nv = self.normal().dot(&adjusted_ray.direction);
             if -no / nv < 0.0 {
-                Intersection::Never
+                return Intersection::Never;
             } else {
                 let pt = adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + origin;
-                self.point_intersects(pt)
+                return self.point_intersects(pt);
             }
         }
     }

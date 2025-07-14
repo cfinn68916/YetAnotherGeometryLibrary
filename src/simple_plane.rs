@@ -100,12 +100,11 @@ impl SimplePlane {
             let no = self.normal.dot(&adjusted_ray.origin);
             let nv = self.normal.dot(&adjusted_ray.direction);
             if -no / nv < 0.0 {
-                Intersection::Never
-            } else {
-                Intersection::Once(
-                    adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + self.origin,
-                )
+                return Intersection::Never;
             }
+            return Intersection::Once(
+                adjusted_ray.origin + adjusted_ray.direction * (-no / nv) + self.origin,
+            );
         }
     }
     /// Determines if/where a segment will hit this plane.
@@ -137,13 +136,13 @@ impl SimplePlane {
         {
             Intersection::Never
         } else if adjusted_line.direction.dot(&self.normal) == 0.0 {
-            Intersection::LiesOn
+            return Intersection::LiesOn;
         } else {
             let no = self.normal.dot(&adjusted_line.origin);
             let nv = self.normal.dot(&adjusted_line.direction);
-            Intersection::Once(
+            return Intersection::Once(
                 adjusted_line.origin + adjusted_line.direction * (-no / nv) + self.origin,
-            )
+            );
         }
     }
     //TODO:test
@@ -154,17 +153,16 @@ impl SimplePlane {
         {
             Intersection::Never
         } else if (adjusted_line.b - adjusted_line.a).dot(&self.normal) == 0.0 {
-            Intersection::LiesOn
+            return Intersection::LiesOn;
         } else {
             let no = self.normal.dot(&adjusted_line.a);
             let nv = self.normal.dot(&(adjusted_line.b - adjusted_line.a));
             if 1.0 > (-no / nv) && (-no / nv) > 0.0 {
-                Intersection::Once(adjusted_line.b * (-no / nv) + self.origin)
+                return Intersection::Once(adjusted_line.b * (-no / nv) + self.origin);
             } else if 1.0 == (-no / nv) || (-no / nv) == 0.0 {
-                Intersection::Edge(adjusted_line.b * (-no / nv) + self.origin)
-            } else {
-                Intersection::Never
+                return Intersection::Edge(adjusted_line.b * (-no / nv) + self.origin);
             }
+            return Intersection::Never;
         }
     }
 }
@@ -178,10 +176,10 @@ pub struct CoordinatePlane {
 
 impl CoordinatePlane {
     pub fn new(origin: Vector3, x: Vector3, y: Vector3) -> Result<Self, String> {
-        if x.dot(&y) != 0.0 {
-            Err("Non-orthagnal vectors cannot form a plane".to_string())
-        } else {
+        if x.dot(&y) == 0.0 {
             Ok(Self { origin, x, y })
+        } else {
+            Err("Non-orthagnal vectors cannot form a plane".to_owned())
         }
     }
 }
